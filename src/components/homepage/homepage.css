@@ -1,0 +1,86 @@
+.carousel .carousel-item {
+  height: 300px;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.homepage-wrapper {
+  position: relative;
+  top: 50px;
+}
+
+.carousel-item img {
+  position: relative;
+  top: -200px;
+  width: 100%;
+  opacity: 0.3;
+}
+
+.subtext-caro {
+  font-size: 1.3em;
+}
+
+.subtext-caro > a {
+  font-size: 1.3em;
+  text-decoration: none;
+  color: white;
+}
+
+.staff-images {
+  width: 200px;
+  height: auto;
+  margin-top: 10px;
+  padding: 15px;
+}
+
+.staff-images-container {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+
+.staff-info-container {
+  margin: 20px;
+}
+
+.bottom-page-wrapper {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  justify-content: space-between;
+}
+
+.pets-feed-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 33%;
+  justify-content: start;
+  align-items: flex;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+}
+
+.who-are-we-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 60%;
+  margin: 20px;
+}
+
+.pets-feed-title {
+  margin: 20px;
+}
+
+.info-about-website-homepage {
+  text-align: start;
+  overflow: hidden;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.table-stats {
+  margin: auto;
+  padding: 20px;
+  width: 80%;
+}

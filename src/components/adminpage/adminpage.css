@@ -1,0 +1,27 @@
+.admin-page-wrapper {
+  position: relative;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboards-for-admin {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  width: 80%;
+  height: calc(100vh - 150px);
+}
+
+.admin-pages-container {
+  margin: 20px;
+  padding: 30px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
