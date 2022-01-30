@@ -4,9 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./navbar.css";
 import { AppContext } from "../../context/AppContext";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavbarTop() {
+  const navigate = useNavigate();
+
   const {
     user,
     setUser,
@@ -19,6 +21,7 @@ function NavbarTop() {
     e.preventDefault();
     setIsLoginModal((pre) => !pre);
   };
+
   const handleSignupModal = (e) => {
     e.preventDefault();
     setIsSignupModal((pre) => !pre);
@@ -28,35 +31,47 @@ function NavbarTop() {
     e.preventDefault();
     Cookies.remove("token");
     setUser(checkIfUserSignedIn());
+    navigate("/");
   };
+
   return (
-    <Navbar collapseOnSelect fixed="top" expand="lg" bg="dark" variant="dark">
-      <Container>
+    <Navbar collapseOnSelect fixed="top" expand="lg" className="main-navbar">
+      <Container fluid className="navbar-container">
         <Navbar.Brand>
-          <Link to="/">Pet AhTikva</Link>
+          <Link to="/">
+            <span className="nav-text">Pet AhTikva</span>
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link>
-              <Link to="/adopt">Available Pets</Link>
+              <Link to="/adopt">
+                <span className="nav-text">Available Pets</span>
+              </Link>
             </Nav.Link>
           </Nav>
-          <Nav className="align-items-center">
-            {!user && <Nav.Link onClick={handleLoginModal}>Login</Nav.Link>}
-            {!user && <Nav.Link onClick={handleSignupModal}>Sign up</Nav.Link>}
-            {user && <Nav.Link onClick={handleLogout}>Logout</Nav.Link>}
+          <Nav className="nav-links align-items-center">
+            {!user && (
+              <Nav.Link onClick={handleLoginModal}>
+                <span className="nav-text">Login</span>
+              </Nav.Link>
+            )}
+            {!user && (
+              <Nav.Link onClick={handleSignupModal}>
+                <span className="nav-text">Sign up</span>
+              </Nav.Link>
+            )}
+            {user && (
+              <Nav.Link onClick={handleLogout}>
+                <span className="nav-text">Logout</span>
+              </Nav.Link>
+            )}
             {user && (
               <NavDropdown
-                title={
-                  <img
-                    className="profile-image-navbar"
-                    src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
-                    alt="user pic"
-                  />
-                }
+                title={<span className="nav-text">{user.firstName}</span>}
               >
-                <NavDropdown.Item>
+                <NavDropdown.Item className="dropdown-nav">
                   <Link to="/mypets">My pets</Link>
                 </NavDropdown.Item>
                 {!!user.isAdmin && (

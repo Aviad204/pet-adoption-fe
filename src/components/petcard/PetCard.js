@@ -1,65 +1,129 @@
-import React, { useContext, useState } from "react";
-import { Card, Button } from "react-bootstrap";
+import React, { useContext, useEffect, useState, useCallback } from "react";
+import { Card } from "react-bootstrap";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { addPetToSavedPets, removePetFromSavedPets } from "../../util/api";
+import { AppContext } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
+import { Text, Badge, Tag } from "@chakra-ui/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./petcard.css";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { adoptOrFosterPet } from "../../util/api";
-import { AppContext } from "../../context/AppContext";
 
-function PetCard(pet) {
-  const [isFavorite, setIsisFavorite] = useState(false);
-  const [isAvailable, setIsAvailable] = useState(!pet.pet.ownerID);
-  const { user } = useContext(AppContext);
+function PetCard(props) {
+  const pet = props.pet;
+  const navigate = useNavigate();
+  const { user, setIsLoginModal } = useContext(AppContext);
+  const [isAvailable, setIsAvailable] = useState(!pet.ownerID);
+  const [savedPet, setSavedPet] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleAdoptPet = async (e) => {
-    e.preventDefault();
-    const data = {
-      ownerID: user.id,
-      adoptionStatus: "Adopted",
-      petID: pet.pet.id,
+  const checkIfSaved = useCallback(() => {
+    if (user.savedPets?.map((pet) => pet.id).includes(pet.id)) return true;
+    return false;
+  }, [user, pet]);
+
+  useEffect(() => {
+    const unsub = () => {
+      if (user) {
+        setSavedPet(checkIfSaved());
+      }
     };
-    const response = await adoptOrFosterPet(data);
+    unsub();
+    return unsub();
+  }, [user, checkIfSaved]);
+
+  const handleAddToSaved = async (e) => {
+    e.stopPropagation();
+    if (user) {
+      try {
+        const response = await addPetToSavedPets({
+          petID: pet.id,
+          userWhoSavedID: user.id,
+        });
+        setSavedPet((pre) => !pre);
+      } catch (err) {
+        setError(err);
+      }
+    } else setIsLoginModal((pre) => !pre);
   };
 
-  const handleFosterPet = async (e) => {
+  const handleRemoveSaved = async (e) => {
+    e.stopPropagation();
+    if (user) {
+      try {
+        const response = await removePetFromSavedPets({
+          petID: pet.id,
+          userWhoSavedID: user.id,
+        });
+        setSavedPet((pre) => !pre);
+      } catch (err) {
+        setError(err);
+      }
+    } else setIsLoginModal((pre) => !pre);
+  };
+
+  const handleViewMore = (e) => {
     e.preventDefault();
-    const data = {
-      ownerID: user.id,
-      adoptionStatus: "Fostered",
-      petID: pet.pet.id,
-    };
-    const response = await adoptOrFosterPet(data);
+    navigate(`/pet/${pet.id}`);
   };
 
   return (
     <div className="actual-pet-card-container">
-      <Card>
-        <Card.Img variant="top" src={pet.pet.image} />
-        <Card.Body>
-          <Card.Title>{pet.pet.name}</Card.Title>
-          <Card.Text>{pet.pet.type}</Card.Text>
-          <Card.Text>Weight: {pet.pet.weight}KG</Card.Text>
-          <Card.Text>Height: {pet.pet.height}CM</Card.Text>
-          {!isAvailable && <span>NOT AVAILABLE</span>}
-          {isAvailable && (
-            <>
-              <Button variant="primary" onClick={handleAdoptPet}>
-                Adopt
-              </Button>
-              <div className="heart-container">
-                {isFavorite ? (
-                  <AiFillHeart onClick={() => setIsisFavorite((pre) => !pre)} />
-                ) : (
-                  <AiOutlineHeart
-                    onClick={() => setIsisFavorite((pre) => !pre)}
-                  />
-                )}
-              </div>
-              <Button variant="primary" onClick={handleFosterPet}>
-                Foster
-              </Button>{" "}
-            </>
+      <Card className="actual-card" onClick={handleViewMore}>
+        <div className="image-container embed-responsive embed-responsive-16by9">
+          <Card.Img className="image-pet-card" variant="top" src={pet.image} />
+          {!isAvailable && (
+            <div className="heart-container  bg-danger">
+              {savedPet && (
+                <AiFillHeart
+                  className="icons-card"
+                  onClick={handleRemoveSaved}
+                />
+              )}
+              {!savedPet && (
+                <AiOutlineHeart
+                  className="icons-card"
+                  onClick={handleAddToSaved}
+                />
+              )}
+            </div>
           )}
+          {isAvailable && (
+            <div className="heart-container bg-success">
+              {savedPet && (
+                <AiFillHeart
+                  className="icons-card"
+                  onClick={handleRemoveSaved}
+                />
+              )}
+              {!savedPet && (
+                <AiOutlineHeart
+                  className="icons-card"
+                  onClick={handleAddToSaved}
+                />
+              )}
+            </div>
+          )}
+        </div>
+        {!isAvailable && (
+          <div className="text-white bg-danger h6 d-inline-block">x</div>
+        )}
+        {isAvailable && (
+          <div className="text-white bg-success h6 d-inline-block">x</div>
+        )}
+        <Card.Body className="card-content">
+          <div className="bottom-card-container">
+            <Text as="b" className="d-flex justify-content-center" isTruncated>
+              {pet.name}
+            </Text>
+            <div className="d-flex justify-content-around w-75 mt-2">
+              <Tag>{pet.height}CM</Tag>
+              <Tag>{pet.weight}KG</Tag>
+            </div>
+            <Badge colorScheme="purple" className="badge-card">
+              {pet.type.charAt(0).toUpperCase() + pet.type.slice(1)}
+            </Badge>
+          </div>
+          {error && <div className="text-danger">{error}</div>}
         </Card.Body>
       </Card>
     </div>

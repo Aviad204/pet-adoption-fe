@@ -1,10 +1,8 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
-import { uploadImageToServer } from "../../util/api";
-
 function DropzoneComp(props) {
-  const { setIsUploading, setPetImage } = props;
+  const { setPetImage } = props;
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
     useDropzone({
       accept: "image/jpeg, image/png",
@@ -28,13 +26,17 @@ function DropzoneComp(props) {
   ));
 
   return (
-    <section className="container">
-      <div {...getRootProps({ className: "dropzone" })}>
+    <section className="container d-flex p-2 flex-column justify-content-center align-items-center">
+      <div {...getRootProps({ className: "dropzone w-100" })}>
         <input {...getInputProps(setPetImage(acceptedFiles[0]))} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-        <em>(Only *.jpeg and *.png images will be accepted)</em>
+        <div className="d-flex flex-column justify-content-center align-items-center ">
+          <p>Drag 'n' drop some files here, or click to select files</p>
+          <em>(Only *.jpeg and *.png images will be accepted)</em>
+          <div>(-ONLY CUTE PETS ALLOWED!-)</div>
+          <div>(--jk, there is not such a thing not-cute-pet--)</div>
+        </div>
       </div>
-      <aside>
+      <aside className="mt-3">
         <h4>Accepted files</h4>
         <ul>{acceptedFileItems}</ul>
         <h4>Rejected files</h4>

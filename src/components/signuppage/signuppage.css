@@ -1,3 +1,13 @@
 #loginButton {
   cursor: pointer;
 }
+
+.phone-number-input {
+  width: 100% !important ;
+  margin: 10px 0 10px 0 !important;
+}
+
+.phone-number-container {
+  width: 100% !important ;
+  margin: 10px 0 10px 0 !important;
+}

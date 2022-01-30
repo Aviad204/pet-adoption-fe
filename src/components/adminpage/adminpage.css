@@ -1,6 +1,6 @@
 .admin-page-wrapper {
   position: relative;
-  top: 80px;
+  top: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,10 +12,14 @@
   justify-content: center;
 }
 
-.dashboards-for-admin {
+.dashboards-for-add-pet {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   width: 80%;
-  height: calc(100vh - 150px);
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .admin-pages-container {
@@ -24,4 +28,22 @@
   width: 100vw;
   display: flex;
   justify-content: center;
+}
+
+.add-pet-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropzone-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  width: max-content;
+  height: max-content;
+  background-color: rgba(130, 248, 82, 0.2);
 }

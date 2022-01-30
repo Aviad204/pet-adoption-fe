@@ -1,4 +1,61 @@
 .actual-pet-card-container {
-  flex-basis: 20%;
+  flex-basis: 10%;
   margin: 20px;
+}
+
+.actual-card {
+  width: 230px;
+}
+
+.actual-pet-card-container:hover {
+  cursor: pointer;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.image-container {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 3px;
+  border: 2px solid #021a40;
+  background-color: #e6e6e6;
+}
+
+.image-pet-card {
+  width: 100% !important;
+  height: 150px !important;
+}
+
+.bottom-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icons-card {
+  width: 35px;
+  height: auto;
+  color: #f0bebe;
+}
+
+.embed-responsive .card-img-top {
+  object-fit: fill;
+}
+
+.heart-container {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 145px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.badge-card {
+  position: absolute;
+  top: 190px;
+  right: 20px;
 }

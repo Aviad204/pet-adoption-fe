@@ -1,0 +1,19 @@
+.actual-pets-table {
+  width: 100%;
+}
+.responsive-table-caption {
+  display: none;
+}
+@media screen and (max-width: 1200px) {
+  .responsive-table {
+    display: none;
+  }
+  .responsive-table-caption {
+    display: table-caption;
+  }
+}
+
+.row-pet-image {
+  width: 50px;
+  height: auto;
+}

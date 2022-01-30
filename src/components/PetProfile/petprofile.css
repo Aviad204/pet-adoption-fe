@@ -1,0 +1,71 @@
+.page-wrapper {
+  position: relative;
+  top: 100px;
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+  height: max-content;
+}
+
+.left-container {
+  flex-basis: 60%;
+  height: max-content;
+  margin-bottom: 100px !important;
+}
+
+.right-container {
+  flex-basis: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: max-content;
+  padding: 30px;
+}
+
+.pet-card {
+  width: 100%;
+  height: max-content;
+}
+
+.image-pet-card {
+  width: 100%;
+  height: auto;
+}
+
+.bottom-part-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+
+.card-body-text-container {
+  text-align: start;
+  padding: 20px;
+}
+
+.button-pet {
+  width: 200px;
+  height: 60px;
+  font-size: 20px;
+}
+
+.heart-like-profile {
+  width: 70px;
+  height: auto;
+}
+
+.heart-container-profile {
+  position: relative;
+  bottom: 0;
+  right: 0;
+}
+
+.image-pet-card-profile {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.heading-container {
+  height: 90px;
+}

@@ -11,7 +11,6 @@ function LoginPage() {
     setIsLoginModal,
     isLoginModal,
     setIsSignupModal,
-    isSignupModal,
     checkIfUserSignedIn,
   } = useContext(AppContext);
 
@@ -30,6 +29,7 @@ function LoginPage() {
       email: userEmail,
       password: userPassword,
     };
+    
     try {
       const response = await loginToServer(userDetails);
       if (response) {

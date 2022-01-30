@@ -1,0 +1,45 @@
+.view-more-wrapper {
+  border: 2px solid red;
+  width: 100%;
+}
+
+.actual-table-row {
+  flex-basis: 100%;
+  border: 2px solid purple;
+}
+
+.actual-body-row {
+  flex-basis: 100%;
+}
+.row-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-80w {
+  min-width: 80%;
+}
+
+.heading-modal {
+  text-align: center;
+  padding: 30px;
+}
+
+.body-container-modal {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0 30px 0;
+  padding: 0;
+}
+
+.body-bottom-modal {
+  display: flex;
+  justify-content: center;
+}
+
+.owned-pet-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

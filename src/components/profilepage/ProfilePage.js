@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
+import { Form, FloatingLabel, Button } from "react-bootstrap";
+import { AppContext } from "../../context/AppContext";
+import { getUsersAllPets, updateUserData } from "../../util/api";
+import PetsFeed from "../petsFeed/PetsFeed";
+import { Heading } from "@chakra-ui/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./profilepage.css";
-import { Card, Image, Form, Col, Row, FloatingLabel } from "react-bootstrap";
-import aviadImg from "./images/aviad.png";
-import { AppContext } from "../../context/AppContext";
-import { updateUserData } from "../../util/api";
 
 function ProfilePage() {
   const { user, setUser, checkIfUserSignedIn } = useContext(AppContext);
@@ -14,16 +15,21 @@ function ProfilePage() {
   const [userLastName, setUserLastName] = useState(user.lastName);
   const [userPhoneNumber, setUserPhoneNumber] = useState(user.phoneNumber);
   const [userBio, setUserBio] = useState(user.bio);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(" ");
 
+  const [userPets, setUserPets] = useState([]);
   useEffect(() => {
-    const unsub = () => {
-      console.log(checkIfUserSignedIn());
+    const unsub = async () => {
+      const petsData = await getUsersAllPets(user?.id);
+      setUserPets(petsData);
     };
     unsub();
     return () => {
       unsub();
     };
-  }, [setUser]);
+  }, [user]);
 
   const handleOnClickUpdate = async (e) => {
     e.preventDefault();
@@ -35,22 +41,39 @@ function ProfilePage() {
       phoneNumber: userPhoneNumber,
       bio: userBio,
     };
-    const response = await updateUserData(user.id, updatedProfileInfo);
-    if (response) {
-      setUser(checkIfUserSignedIn());
+    try {
+      const response = await updateUserData(user.id, updatedProfileInfo);
+      if (response.status === 200) {
+        setUser(checkIfUserSignedIn());
+        setIsSuccess((pre) => !pre);
+        setTimeout(() => setIsSuccess((pre) => !pre), 5000);
+      } else if (response.status === 422) {
+        setErrorMessage("Email is already in use");
+        setIsError((pre) => !pre);
+        setTimeout(() => setIsError((pre) => !pre), 5000);
+      } else {
+        setErrorMessage(
+          "Unhandled request, please check your input and try again."
+        );
+        setIsError((pre) => !pre);
+        setTimeout(() => setIsError((pre) => !pre), 5000);
+      }
+    } catch (err) {
+      setErrorMessage(err);
+      setIsError((pre) => !pre);
+      setTimeout(() => setIsError((pre) => !pre), 5000);
     }
   };
 
   return (
     <div className="profile-page-wrapper">
-      <div className="person-info-container">
-        <Card className="card-profile-container border-0 mx-5 align-items-center">
-          <Image className="profile-image" src={aviadImg} roundedCircle />
-          <Card.Body>
-            <Card.Title>Aviad Shmuel</Card.Title>
-            <Card.Text>vocaviad@gmail.com</Card.Text>
-          </Card.Body>
-        </Card>
+      <div className="person-pet-container">
+        <Heading>My pets</Heading>
+        {userPets.length > 0 &&
+          userPets.map((pet) => <PetsFeed key={pet.id} pet={pet} />)}
+        {userPets.length === 0 && (
+          <div>You don't own any pet, would you like to adopt one?</div>
+        )}
       </div>
       <div className="person-info-editor-container">
         <div className="profile-page-title">
@@ -109,9 +132,11 @@ function ProfilePage() {
             />
             <label htmlFor="phoneNumber">Phone number</label>
           </Form.Floating>
-          <button onClick={(e) => handleOnClickUpdate(e)}>
+          <Button onClick={(e) => handleOnClickUpdate(e)}>
             Click to update
-          </button>
+          </Button>
+          {isSuccess && <div className="text-success">Profile Updated!</div>}
+          {isError && <div className="text-danger">{errorMessage}</div>}
         </div>
       </div>
       <div className="profile-bio-container">
@@ -121,7 +146,7 @@ function ProfilePage() {
           <FloatingLabel
             className="w-100 h-100"
             controlId="floatingTextarea2"
-            label="Tell us something about yourself"
+            label="Describe yourself"
           >
             <Form.Control
               className="bio-text h-100"

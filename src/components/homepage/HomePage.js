@@ -1,11 +1,13 @@
 import React from "react";
-import { Carousel, Table } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Carousel } from "react-bootstrap";
 import cover1 from "./images/cover1.jpg";
 import cover2 from "./images/cover2.jpg";
 import cover3 from "./images/cover3.jpg";
+import InfoCard from "./InfoCard";
+import { BsFillArrowRightSquareFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./homepage.css";
-import PetsFeed from "../petsFeed/PetsFeed";
 
 function HomePage() {
   return (
@@ -40,89 +42,48 @@ function HomePage() {
             <img className="d-block w-100" src={cover3} alt="Third slide" />
             <Carousel.Caption>
               <h3 className="display-3">
-                <strong>Don't stay alone during the holidays</strong>
+                <strong>Don't stay alone!</strong>
               </h3>
               <p className="subtext-caro">
-                <a href="#search">Click here to adopt a friend!</a>
+                <Link to="/adopt">Click here to adopt a friend!</Link>
               </p>
             </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
       </div>
       <div className="bottom-page-wrapper">
-        <div className="who-are-we-wrapper">
-          <h1>Welcome to Pet-AhTikva</h1>
-          <span className="info-about-website-homepage">
-            So, NO! it's not a website for Petah-Tikva city, we are not even
-            based over there!
-            <br />
-            The idea behind Pet AhTikva, is simple to adopt a brother ("Ah") and
-            give it hope ("Tikva")!
-            <br />
-            Since we founded the website, we helped{" "}
-            <span id="numOfAdoption">
-              <strong>CHANGE NUMBER</strong>
-            </span>{" "}
-            pets to find a new loving home.
-            <br />
-          </span>
-          <span>
-            <h3>We all love stats, no?</h3>
-            Let's take a look at our stats since we started the company!
-          </span>
-          <div>
-            {
-              // Need to move table to a component
-            }
-            <Table className="table-stats" responsive="xl">
-              <thead>
-                <tr>
-                  <th>Pet type</th>
-                  <th>Adopted</th>
-                  <th>Fostered</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Dogs</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                </tr>
-                <tr>
-                  <td>Cats</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                </tr>
-                <tr>
-                  <td>Parrots</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                </tr>
-                <tr>
-                  <td>Rabbits</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                  <td>Table cell</td>
-                </tr>
-              </tbody>
-            </Table>
+        <div className="adoption-process-wrapper">
+          <div className="single-info-card">
+            <InfoCard
+              stepNumber="1"
+              header="Join The Family"
+              title="We are, the pet lovers."
+              text="Browse for your next family member, they are expecting to see you and have a warm home"
+            />
           </div>
-        </div>
-        <div className="pets-feed-wrapper">
-          <h3 className="pets-feed-title">Pets feed</h3>
-          {
-            // will be under map function
-          }
-          <PetsFeed />
-          <PetsFeed />
-          <PetsFeed />
-          <PetsFeed />
-          <PetsFeed />
-          <PetsFeed />
+          <div>
+            <BsFillArrowRightSquareFill className="arrow-info-card" />
+          </div>
+
+          <div className="single-info-card">
+            <InfoCard
+              stepNumber="2"
+              header="Easy Adoption Process"
+              title="You choose, we do the rest."
+              text="Did you find your match? just click and we will contact you ASAP to arrange the exciting meeting!"
+            />
+          </div>
+          <div>
+            <BsFillArrowRightSquareFill className="arrow-info-card" />
+          </div>
+          <div className="single-info-card">
+            <InfoCard
+              stepNumber="3"
+              header="Grow Your Family"
+              title="Happy days!"
+              text="By this stage, you probably found your soulmate, you both will find an inner happiness!"
+            />
+          </div>
         </div>
       </div>
     </div>

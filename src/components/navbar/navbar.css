@@ -1,5 +1,26 @@
-.profile-image-navbar {
-  width: 30px;
-  height: auto;
-  border-radius: 50%;
+.main-navbar {
+  background-color: var(--v1);
+  width: 100vw;
+  padding: 15px;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+.nav-text {
+  color: black !important;
+}
+
+.navbar-container {
+  margin: 0 20px 0 20px;
+  padding: 0;
+  width: inherit;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  left: -100px !important;
+}
+
+.footer {
+  background-color: var(--v1);
 }

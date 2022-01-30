@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Modal, Button, Card, Form } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { AppContext } from "../../context/AppContext";
-import "./signuppage.css";
 import { signUpToServer } from "../../util/api";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./signuppage.css";
 
 function SignupPage() {
   const {
@@ -23,6 +25,7 @@ function SignupPage() {
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
   const [isLoadingSignup, setIsLoadingSignup] = useState(false);
   const [isPasswordDoesntMatch, setIsPasswordDoesntMatch] = useState(false);
+  const [error, setError] = useState("");
 
   const onClickLogin = (e) => {
     e.preventDefault();
@@ -44,9 +47,15 @@ function SignupPage() {
       lastName: userLastName,
       phoneNumber: userPhoneNumber,
     };
-    const response = await signUpToServer(newUser);
-    setUser(checkIfUserSignedIn());
-    setIsSignupModal((pre) => !pre);
+    try {
+      const response = await signUpToServer(newUser);
+      if (response.status === 200) {
+        setUser(checkIfUserSignedIn());
+        setIsSignupModal((pre) => !pre);
+      } else setError(response.data);
+    } catch (err) {
+      setError(err);
+    }
   };
 
   return (
@@ -105,12 +114,12 @@ function SignupPage() {
                   required
                 />
               </Form.Group>
-              <Form.Group id="password">
-                <Form.Label>Phone Number</Form.Label>
-                <Form.Control
-                  type="phone"
-                  onChange={(e) => setUserPhoneNumber(e.target.value)}
-                  required
+              <Form.Group id="phoneNumber" className="phone-number-container">
+                <PhoneInput
+                  inputClass="phone-number-input"
+                  country={"il"}
+                  value={userPhoneNumber}
+                  onChange={(number) => setUserPhoneNumber(number)}
                 />
               </Form.Group>
 
@@ -121,6 +130,9 @@ function SignupPage() {
               >
                 Sign up
               </Button>
+              {error && (
+                <h3 className="text-danger">Couldn't register, {error}</h3>
+              )}
             </Form>
           </Card.Body>
         </Card>
@@ -129,7 +141,7 @@ function SignupPage() {
         <div className="w-100 text-center mt-2">
           Already have an account?{" "}
           <span className="text-primary pe-auto" onClick={onClickLogin}>
-            <u id="loginButton">Sign up</u>
+            <u id="loginButton">Sign in</u>
           </span>
         </div>
       </Modal.Footer>
